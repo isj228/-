@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .bt1 {
+            height: 40px;
+            background-color: #ccc;
+            color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            cursor: not-allowed;
+        }
+        
+        .bt2 {
+            height: 40px;
+            background-color: #ccc;
+            color: #000;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            cursor: not-allowed;
+        }
+        
+        .jishi {
+            color: red;
+            width: 50px;
+            height: 20px;
+            display: inline-block;
+        }
+        
+        .bt3 {
+            background-color: pink;
+            color: #000;
+            border: 1px solid pink;
+            height: 30px;
+            border-radius: 10px;
+        }
+        .bt4:hover{
+            background-color: pink;
+            color: #fff;
+            border: 1px dotted #fff;
+        }
+        .bt5{
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 20px;
+            width: 20px;
+            border-radius: 20%;
+            color: purple;
+            align-content: center;
+            border: none;
+        }
+        .content {
+            width: 500px;
+            height: 400px;
+            margin: auto;
+            margin-top: 70px;
+            background-color:rgba(255, 34, 199, 0.1);
+
+        }
+        
+        #chojiang {
+            width: 200px;
+            height: 150px;
+            background-color:rgba(255, 133, 99, 0.1);
+            margin-left: 50px;
+        }
+         #chojiang{
+            position: relative;
+            padding-left: 30px;
+        }
+        #chojiang h4{
+            align-content:center;
+            font-size: 20px;
+        }
+        #chojiang h5{
+            align-content:center;
+
+        }
+        br{
+            height: 5px;
+        }
+        .span4{
+            font-size: 16px;
+            color: purple;
+        }
+        #kk{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            right: 50px;
+            top: 50px;
+
+        }
+        #kk img{
+            width: 100%;
+            height: 100%;
+        }
+        .bt6{
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div align="center" class="content">
+        <h2 id="h3">准备开始</h2>
+        <h3 id="h">词汇</h3>
+        <hr>
+        <hr>
+        <hr>
+        <button class="bt1" disabled=" disabled">未开始</button>
+        <button class="bt2" disabled=" disabled">未开始</button>
+        <hr> 当前小组的得分为： <span>0</span>
+        <button class="bt3">开始计时</button>
+        <hr>
+       还剩 <span class="jishi">120</span> 秒
+
+
+
+    </div>
+    <div id="chojiang">
+        <h4 >挑选幸运观众</h4>
+        <h5 id="h2">幸运观众:
+            <span class="span4">敬请期待</span>
+        </h5>
+        <button class="bt4">开始选人</button>
+        <button class="bt5">x</button>
+
+    </div>
+    <div id="kk"><img src="img\kk.webp" alt=""><button class="bt6">x</button></div>
+
+    <script src="js/word.js">
+    </script>
+
+    <script>
+        let btn1 = document.getElementsByTagName("button")[0];
+        let btn2 = document.getElementsByTagName("button")[1];
+        let btn3 = document.getElementsByTagName("button")[2];
+        let btn4 = document.getElementsByTagName("button")[3];
+        let btn5 = document.getElementsByTagName("button")[4];
+        let btn6 = document.getElementsByTagName("button")[5];
+
+
+        let cj = document.getElementById("chojiang")
+        let kk = document.getElementById("kk")
+
+
+        let span = document.getElementsByTagName("span")[0];
+        let span2 = document.getElementsByTagName("span")[1];
+        let span3 = document.getElementsByTagName("span")[2];
+        let span4 = document.getElementsByTagName("span")[3];
+
+
+        let h = document.getElementById("h");
+        let h2 = document.getElementById("h2");
+        let h3 = document.getElementById("h3")
+
+
+        btn1.onclick = function() {
+           // 去随机获取一个单词
+            let r = Math.floor(Math.random() * words.length);
+            h.innerText = words[r];
+            span.innerText = parseInt(span.innerText) + 10;
+            words.splice(r,1)  //去重
+        }
+
+
+        btn2.onclick = function() {
+            //去随机获取一个单词
+            let r = Math.floor(Math.random() * words.length);
+            h.innerText = words[r];
+            words.splice(r,1)  //去重
+
+            // 记录开始时间
+            let jilu = new Date;
+            let startTime = jilu; //记录当前时间 ，
+            // 禁用按钮，内容
+            btn2.disabled = true;
+            btn2.innerText = '禁用中(五秒)';
+            btn2.style.cursor = "not-allowed"; //跳过按钮鼠标变成禁用图标
+
+
+            let jiancha = function() {
+                if (Date.now() - jilu >= 5000) {
+                    btn2.disabled = false;
+                    btn2.innerText = "跳过本题"
+                    btn2.style.cursor = "pointer"; //跳过按钮鼠标变成指针图标
+
+
+                } else {
+                    // 如果时间没到，继续检查
+                    setTimeout(jiancha, 100); 
+                }
+            };
+            // 开始检查
+            jiancha();
+
+
+
+        }
+        let yx = 1;
+
+        let dsq; //声明一个定时器
+        btn3.onclick = function() {
+            btn3.disabled = true; //点击开始以后禁用计时按钮
+            h3.innerText = "第"+yx + "局游戏"
+            yx++ //自增的游戏局数
+
+            let r = Math.floor(Math.random() * words.length);
+            h.innerText = words[r]; 
+            //点击开始计时后出现词汇
+
+            if (btn3.disabled == true) { //判断计时是否开始，如果开始，则不再禁用答题和跳过按钮
+                btn1.disabled = false;
+                btn2.disabled = false;
+                btn1.style.cursor = "pointer"; //答对按钮鼠标变成指针图标
+                btn1.innerText = "下一题(答对了)";
+                btn1.style.background = "darkgreen"
+                btn1.style.color = "#fff"
+
+                btn2.style.cursor = "pointer"; //跳过按钮鼠标变成指针图标
+                btn2.innerText = "跳过本题";
+                btn2.style.background = "yellow"
+                btn2.style.color = "#000"
+
+                btn3.style.background = "#ccc"; //并变成灰色
+                btn3.style.cursor = "not-allowed"; //计时按钮鼠标变成禁用图标
+
+            }
+            
+
+
+            let time = 120;
+            dsq = setInterval(function() {
+                time--;
+                span2.innerText = time;
+                let big = "100px"; 
+                let xiao = "20px" 
+                if(time == 10){
+                    span2.style.fontSize = big; //倒计时变大
+
+                }else if(time>10){
+                    span2.style.fontSize = xiao; //重新变小
+
+                }
+
+                if (time == 0) {
+                    clearInterval(dsq);
+                    btn3.disabled = false;
+                    span.innerText = "0"; //计时器归零得分也归零
+
+                    h.innerText = "词汇" //归零后变回来
+                    //注意，下面判断一定要写在这个判断里面，不然会有bug。。。。。
+                    if (btn3.disabled == false) { //没开始或者计时结束
+                        btn3.style.cursor = "pointer"; // 计时按钮鼠标变成指针
+                        btn1.disabled = true; //禁用按钮
+                        btn2.disabled = true;
+                        btn1.style.cursor = "not-allowed"; //答对按钮鼠标变成禁用图标
+                        btn1.innerText = "禁用中";
+                        btn1.style.color = "#000" 
+                        btn1.style.background = "#ccc"//禁用时变成灰色
+
+                        btn2.style.cursor = "not-allowed"; //跳过按钮鼠标变成禁用图标
+                        btn2.innerText = "禁用中";
+                        btn2.style.color = "#000"
+                        btn2.style.background = "#ccc"
+
+
+                        btn3.style.background = "pink"; //计时完变回骚气的粉色
+
+                    }
+                }
+
+            }, 100)
+0
+        }
+        let sum = 1;
+        btn4.onclick = function() {
+
+            let r = Math.floor(Math.random() * rj2304.length);
+            span3.innerText = rj2304[r];
+            rj2304.splice(r, 1) //去重
+            console.log(rj2304.length);
+
+            if (rj2304.length == 0) {
+                span3.innerText = "已点完"
+                btn4.disabled = true;
+                btn4.style.cursor = "not-allowed"; 
+            }
+
+
+        }
+        btn5.onclick = function(){
+            cj.style.display = "none"
+        }
+        btn6.onclick = function(){
+            kk.style.display = "none"
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
